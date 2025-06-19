@@ -27,7 +27,7 @@ export default async function BlogPage() {
       <div className="space-y-8">
         {posts.map((post: any) => (
           <article key={post._id} className="border rounded-lg p-4 shadow-sm bg-white">
-            {post.mainImage?.asset?.url && (
+            {post.mainImage?.asset?.url ? (
               <Image
                 src={post.mainImage.asset.url}
                 alt={post.mainImage.alt || post.title}
@@ -35,15 +35,15 @@ export default async function BlogPage() {
                 height={400}
                 className="rounded mb-4"
               />
-            )}
+            ) : null}
             <h2 className="text-2xl font-semibold mb-2">
               <Link href={`/blog/${post.slug.current}`}>{post.title}</Link>
             </h2>
             <p className="text-gray-600 mb-2">{post.excerpt}</p>
             <div className="flex items-center gap-2 text-sm text-gray-500">
-              {post.author?.image && (
-                <Image src={post.author.image.asset?.url} alt={post.author.name} width={32} height={32} className="rounded-full" />
-              )}
+              {post.author?.image?.asset?.url ? (
+                <Image src={post.author.image.asset.url} alt={post.author.name} width={32} height={32} className="rounded-full" />
+              ) : null}
               <span>{post.author?.name}</span>
               <span>·</span>
               <span>{new Date(post.publishedAt).toLocaleDateString()}</span>

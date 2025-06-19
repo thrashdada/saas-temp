@@ -29,9 +29,9 @@ export default async function AuthorPage({ params }: { params: { slug: string } 
   return (
     <main className="max-w-2xl mx-auto py-8 px-4">
       <div className="flex items-center gap-4 mb-6">
-        {author.image?.asset?.url && (
+        {author.image?.asset?.url ? (
           <Image src={author.image.asset.url} alt={author.name} width={64} height={64} className="rounded-full" />
-        )}
+        ) : null}
         <div>
           <h1 className="text-2xl font-bold">{author.name}</h1>
           {author.bio && (

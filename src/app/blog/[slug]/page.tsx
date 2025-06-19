@@ -25,16 +25,16 @@ export default async function PostPage({ params }: { params: { slug: string } })
       <Link href="/blog" className="text-blue-600">← Back to Blog</Link>
       <h1 className="text-3xl font-bold mb-2 mt-4">{post.title}</h1>
       <div className="flex items-center gap-2 text-sm text-gray-500 mb-4">
-        {post.author?.image?.asset?.url && (
+        {post.author?.image?.asset?.url ? (
           <Image src={post.author.image.asset.url} alt={post.author.name} width={32} height={32} className="rounded-full" />
-        )}
+        ) : null}
         <span>{post.author?.name}</span>
         <span>·</span>
         <span>{new Date(post.publishedAt).toLocaleDateString()}</span>
       </div>
-      {post.mainImage?.asset?.url && (
+      {post.mainImage?.asset?.url ? (
         <Image src={post.mainImage.asset.url} alt={post.mainImage.alt || post.title} width={800} height={400} className="rounded mb-4" />
-      )}
+      ) : null}
       <div className="mb-4 flex flex-wrap gap-2">
         {post.categories?.map((cat: any) => (
           <span key={cat.slug.current} className="bg-gray-200 rounded px-2 py-1 text-xs">{cat.title}</span>
