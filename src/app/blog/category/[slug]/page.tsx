@@ -1,5 +1,6 @@
 import { client } from "../../../../sanity/lib/client";
 import Link from "next/link";
+import { Post } from "../../../../lib/types";
 
 async function getCategoryAndPosts(slug: string) {
   // Fetch the category by slug
@@ -21,15 +22,16 @@ async function getCategoryAndPosts(slug: string) {
   return { ...category, posts };
 }
 
-export default async function CategoryPage({ params }: { params: { slug: string } }) {
-  const category = await getCategoryAndPosts(params.slug);
+export default async function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const category = await getCategoryAndPosts(slug);
   if (!category) return <div>Category not found</div>;
   return (
     <main className="max-w-2xl mx-auto py-8 px-4">
       <h1 className="text-2xl font-bold mb-6">Category: {category.title}</h1>
       {category.posts && category.posts.length > 0 ? (
         <ul className="space-y-4">
-          {category.posts.map((post: any) => (
+          {category.posts.map((post: Post) => (
             <li key={post._id} className="border rounded p-4">
               <Link href={`/blog/${post.slug.current}`} className="text-xl font-semibold text-blue-600">{post.title}</Link>
               <p className="text-gray-600">{post.excerpt}</p>

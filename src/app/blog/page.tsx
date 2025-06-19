@@ -2,6 +2,7 @@
 import { client } from "../../sanity/lib/client";
 import Link from "next/link";
 import Image from "next/image";
+import { Post } from "../../lib/types";
 
 async function getPosts() {
   const query = `*[_type == "post"]|order(publishedAt desc){
@@ -25,7 +26,7 @@ export default async function BlogPage() {
     <main className="max-w-3xl mx-auto py-8 px-4">
       <h1 className="text-3xl font-bold mb-6">Blog</h1>
       <div className="space-y-8">
-        {posts.map((post: any) => (
+        {posts.map((post: Post) => (
           <article key={post._id} className="border rounded-lg p-4 shadow-sm bg-white">
             {post.mainImage?.asset?.url ? (
               <Image

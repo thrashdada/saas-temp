@@ -2,6 +2,7 @@ import { client } from "../../../../sanity/lib/client";
 import Image from "next/image";
 import Link from "next/link";
 import { PortableText } from "@portabletext/react";
+import { Post } from "../../../../lib/types";
 
 async function getAuthorAndPosts(slug: string) {
   // Fetch the author by slug
@@ -23,8 +24,9 @@ async function getAuthorAndPosts(slug: string) {
   return { ...author, posts };
 }
 
-export default async function AuthorPage({ params }: { params: { slug: string } }) {
-  const author = await getAuthorAndPosts(params.slug);
+export default async function AuthorPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const author = await getAuthorAndPosts(slug);
   if (!author) return <div>Author not found</div>;
   return (
     <main className="max-w-2xl mx-auto py-8 px-4">
@@ -44,7 +46,7 @@ export default async function AuthorPage({ params }: { params: { slug: string } 
       <h2 className="text-xl font-semibold mb-4">Posts by {author.name}</h2>
       {author.posts && author.posts.length > 0 ? (
         <ul className="space-y-4">
-          {author.posts.map((post: any) => (
+          {author.posts.map((post: Post) => (
             <li key={post._id} className="border rounded p-4">
               <Link href={`/blog/${post.slug.current}`} className="text-lg font-semibold text-blue-600">{post.title}</Link>
               <p className="text-gray-600">{post.excerpt}</p>

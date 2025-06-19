@@ -3,6 +3,7 @@ import { PortableText } from "@portabletext/react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Category } from "../../../lib/types";
 
 async function getPost(slug: string) {
   const query = `*[_type == "post" && slug.current == $slug][0]{
@@ -17,8 +18,9 @@ async function getPost(slug: string) {
   return await client.fetch(query, { slug });
 }
 
-export default async function PostPage({ params }: { params: { slug: string } }) {
-  const post = await getPost(params.slug);
+export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const post = await getPost(slug);
   if (!post) return notFound();
   return (
     <main className="max-w-2xl mx-auto py-8 px-4">
@@ -36,7 +38,7 @@ export default async function PostPage({ params }: { params: { slug: string } })
         <Image src={post.mainImage.asset.url} alt={post.mainImage.alt || post.title} width={800} height={400} className="rounded mb-4" />
       ) : null}
       <div className="mb-4 flex flex-wrap gap-2">
-        {post.categories?.map((cat: any) => (
+        {post.categories?.map((cat: Category) => (
           <span key={cat.slug.current} className="bg-gray-200 rounded px-2 py-1 text-xs">{cat.title}</span>
         ))}
       </div>
