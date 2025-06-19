@@ -50,6 +50,30 @@ export const postType = defineType({
       name: 'body',
       type: 'blockContent',
     }),
+    defineField({
+      name: 'excerpt',
+      type: 'text',
+      title: 'Excerpt',
+      description: 'A short summary of the post for previews and SEO.'
+    }),
+    defineField({
+      name: 'featured',
+      type: 'boolean',
+      title: 'Featured',
+      description: 'Mark this post as featured.'
+    }),
+    defineField({
+      name: 'readingTime',
+      type: 'number',
+      title: 'Reading Time (minutes)',
+      description: 'Estimated reading time in minutes.'
+    }),
+    defineField({
+      name: 'metaDescription',
+      type: 'string',
+      title: 'Meta Description',
+      description: 'Meta description for SEO.'
+    }),
   ],
   preview: {
     select: {
